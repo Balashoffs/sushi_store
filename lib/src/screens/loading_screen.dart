@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:sushi_store/src/models/main/main_page.dart';
-import 'package:sushi_store/src/models/product/product_page.dart';
-import 'package:sushi_store/src/models/type/type_page.dart';
+import 'package:sushi_store/src/models/product/product_page_element.dart';
+import 'package:sushi_store/src/models/section/section_page.dart';
 import 'package:sushi_store/src/parser/parser.dart';
 import 'package:sushi_store/src/screens/main_screen.dart';
 import 'package:sushi_store/src/screens/product_screen.dart';
-import 'package:sushi_store/src/screens/type_screen.dart'; //
+import 'package:sushi_store/src/screens/section_screen.dart'; //
 
 class LoadingScreen extends StatefulWidget {
   Parser parser = Parser();
@@ -30,27 +30,34 @@ class _LoadingScreenState extends State<LoadingScreen> {
     );
   }
 
+
   @override
   Future<void> initState() {
     switch(widget.sitePosition){
       case 'Menu':
         widget.parser.parseMainPage(widget.urlToPage).then((mainPage){
-          Navigator.push(context, MaterialPageRoute(builder: (context){
+          Navigator.push(context, MaterialPageRoute<Map<String, String>>(builder: (context){
             return MainPageScreen(MainPage(pageName: mainPage.pageName, pages: mainPage.pages));
           }));
         });
         break;
       case 'Type':
-        widget.parser.parseType(widget.urlToPage).then((pageType){
+        widget.parser.parseSection(widget.urlToPage).then((pageType){
           Navigator.push(context, MaterialPageRoute(builder: (context){
-            return TypePageScreen(TypePage(pageName: pageType.pageName, pages: pageType.pages));
+            return SectionPageScreen(SectionPage(pageName: pageType.pageName, pages: pageType.pages));
           }));
         });
         break;
       case 'Product':
-        widget.parser.parseProduct(widget.urlToPage).then((pageProduct){
+        widget.parser.parseProductPage(widget.urlToPage).then((pageProduct){
           Navigator.push(context, MaterialPageRoute(builder: (context){
-            return ProductPageScreen(ProductPage(pageName: pageProduct.pageName, pages: pageProduct.pages));
+            return ProductPageScreen(ProductPageElement(
+                pageName: pageProduct.pageName,
+                mainImgUrl: pageProduct.mainImgUrl,
+                description: pageProduct.description,
+                newPrice: pageProduct.newPrice,
+                oldPrice: pageProduct.oldPrice,
+                productLabelsMap: pageProduct.productLabelsMap));
           }));
         });
         break;

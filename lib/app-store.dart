@@ -6,7 +6,7 @@ class AppStore extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: LoadingScreen(urlToPage: 'https://nsk.mag-sushi.ru', sitePosition: 'Menu',),
+        body: LoadingScreen(urlToPage: 'https://nsk.mag-sushi.ru/rolly', sitePosition: 'Type',),
       ),
     );
   }
